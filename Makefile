@@ -50,7 +50,8 @@ $(WEB): $(SRCS) $(MLX_WEB_LIB)
 		$(MLX_WEB_LIB) \
 		-s USE_GLFW=3 -s USE_WEBGL2=1 -s FULL_ES3=1 -s WASM=1 \
 		-s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
-		-s ALLOW_MEMORY_GROWTH
+		-s ALLOW_MEMORY_GROWTH \
+		--preload-file assets
 
 re: fclean all
 
