@@ -1,5 +1,9 @@
 {
   "files.associations": {
-    "button.h": "c"
+    "button.h": "c",
+    "launcher_scene.h": "c",
+    "scene.h": "c",
+    "mlx42.h": "c",
+    "gameplay_scene.h": "c"
   }
 }

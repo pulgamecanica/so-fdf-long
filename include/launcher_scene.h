@@ -1,8 +1,9 @@
 #ifndef LAUNCHER_SCENE_H
 #define LAUNCHER_SCENE_H
 
+#include "app.h"
 #include "scene.h"
 
-extern t_scene g_launcher_scene;
+extern const t_scene launcher_scene;
 
-#endif
+#endif // LAUNCHER_SCENE_H

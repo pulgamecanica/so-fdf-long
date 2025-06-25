@@ -1,11 +1,13 @@
-#include "launcher.h"
+#include "app.h"
+#include <MLX42/MLX42.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 int main(int argc, char **argv) {
   (void)argc;
   (void)argv;
   srand(time(NULL));
-  launcher_start();  // let the user choose a project
-  return 0;
+  start();
+  return EXIT_SUCCESS;
 }

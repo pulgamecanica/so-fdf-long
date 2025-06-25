@@ -3,13 +3,15 @@
 
 #include "app.h"
 
+/*
+ * each scene implements these four
+ */
 typedef struct s_scene {
-  void (*init)(t_app*);
-  void (*update)(t_app*);
-  void (*destroy)(t_app*);
+  void (*on_enter)(t_app*);
+  void (*on_exit)(t_app*);
+  void (*update)(t_app*);  /* poll input & advance animations */
+  void (*render)(t_app*);  /* draw frame */
 } t_scene;
 
-void set_scene(t_scene new_scene, t_app* app);
-void scene_update(t_app* app);
 
-#endif
+#endif // SCENE_H

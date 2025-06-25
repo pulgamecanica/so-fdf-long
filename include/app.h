@@ -3,8 +3,17 @@
 
 #include <MLX42/MLX42.h>
 
+/*
+ * central application state;
+ * only global is g_app, never used elsewhere
+ */
 typedef struct s_app {
-  mlx_t* mlx;
+  mlx_t  *mlx;
+  int     selected_game;  // 0: fract-ol, 1: fdf, 2: so-long
+  int     selected_map;   // per-game map/function index
 } t_app;
 
-#endif
+/* forward */
+void start(void);
+
+#endif // APP_H
