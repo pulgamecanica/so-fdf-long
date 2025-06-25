@@ -13,7 +13,7 @@
 #define WIDTH  800
 #define HEIGHT 600
 
-static t_app g_app;
+t_app g_app;
 
 /* called every frame by mlx_loop_hook */
 static void loop_hook(void *param)
@@ -33,8 +33,8 @@ static void emscripten_main_loop(void)
 
 void start(void)
 {
-  mlx_set_setting(MLX_MAXIMIZED, true);
-  g_app.mlx = mlx_init(WIDTH, HEIGHT, "MLX42 Launcher", true);
+  // mlx_set_setting(MLX_MAXIMIZED, true);
+  g_app.mlx = mlx_init(WIDTH, HEIGHT, "MLX42 so-fdf-long", true);
   if (!g_app.mlx) {
     fprintf(stderr, "%s\n", mlx_strerror(mlx_errno));
     exit(EXIT_FAILURE);

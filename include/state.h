@@ -11,7 +11,7 @@ typedef enum e_state {
   STATE_LAUNCHER,
   STATE_GAME_MENU,
   STATE_GAMEPLAY,
-  STATE_EXIT
+  STATE_EXIT,
 } t_state;
 
 /* core state-machine API */
