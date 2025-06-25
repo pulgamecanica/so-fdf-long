@@ -8,6 +8,7 @@
     "compare": "c",
     "cstdint": "c",
     "stdbool.h": "c",
-    "random": "c"
+    "random": "c",
+    "fdf_menu.h": "c"
   }
 }

@@ -89,10 +89,6 @@ static void update(t_app *app)
     selection = (selection + OPTIONS_COUNT - 1) % OPTIONS_COUNT;
   else if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN))
     selection = (selection + 1) % OPTIONS_COUNT;
-  else if (mlx_is_key_down(app->mlx, MLX_KEY_ENTER)) {
-    app->selected_game = selection;
-    state_transition(app, STATE_GAME_MENU);
-  }
 
   ui_manager_update(&ui, app->mlx);
 }
