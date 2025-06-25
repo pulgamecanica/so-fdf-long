@@ -5,6 +5,9 @@
 #include <MLX42/MLX42.h>
 #include <stdbool.h>
 
+#define LETTER_PIXEL_SIZE_W 10
+#define LETTER_PIXEL_SIZE_H 20
+
 /* Opaque button type */
 typedef struct s_button t_button;
 

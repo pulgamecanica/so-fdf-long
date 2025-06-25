@@ -36,7 +36,7 @@ static void update(t_app *app)
 
 static void render(t_app *app)
 {
-  mlx_set_background(app->mlx, 0x111111FF);
+  mlx_set_background(app->mlx, 0xff1111FF);
   /* stub: draw map/function list for app->selected_game */
 }
 

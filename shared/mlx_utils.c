@@ -17,3 +17,47 @@ void mlx_set_background(mlx_t *mlx, uint32_t color)
   glClearColor(r, g, b, a);
   glClear(GL_COLOR_BUFFER_BIT);
 }
+
+static int put_pixel_valid(mlx_image_t* img, uint32_t x, uint32_t y) {
+  return (x < img->width && y < img->height && mlx_get_pixel(img, x, y) != 0);
+}
+
+static int get_rgba(int r, int g, int b, int a) {
+  return (r << 24 | g << 16 | b << 8 | a);
+}
+
+int32_t mlx_get_pixel(mlx_image_t* image, uint32_t x, uint32_t y) {
+  if (x > image->width || y > image->height)
+    return 0xFF000000;
+  uint8_t* pixelstart = image->pixels + (y * image->width + x) * BPP;
+  return get_rgba(*(pixelstart), *(pixelstart + 1),
+    * (pixelstart + 2), *(pixelstart + 3));
+}
+
+void put_img_to_img(mlx_image_t *dest, mlx_image_t *src, int dst_x, int dst_y)
+{
+  for (uint32_t y = 0; y < src->height; ++y) {
+    for (uint32_t x = 0; x < src->width; ++x) {
+      if (put_pixel_valid(src, x, y))
+        mlx_put_pixel(dest, dst_x + x, dst_y + y, mlx_get_pixel(src, x, y));
+    }
+  }
+}
+
+void mlx_put_string_to_image(mlx_t       *mlx,
+                             mlx_image_t *dest,
+                             const char  *str,
+                             int          x,
+                             int          y)
+{
+  // 1) render text into its own image
+  mlx_image_t *txt = mlx_put_string(mlx, str, 0, 0);
+  if (!txt)
+    return;
+
+  // 2) blit into our canvas
+  put_img_to_img(dest, txt, x, y);
+
+  // 3) clean up
+  mlx_delete_image(mlx, txt);
+}

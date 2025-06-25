@@ -1,4 +1,6 @@
+#include "app.h"
 #include "button.h"
+#include "mlx_utils.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -64,7 +66,9 @@ static void btn_update(t_ui_element *e, mlx_t *mlx)
 
 static void btn_render(t_ui_element *e, mlx_image_t *canvas)
 {
-  // t_button *btn = e->userdata;
+  extern t_app g_app;
+
+  t_button *btn = e->userdata;
   /* simple outline + label; replace with textured quad if you like */
   uint32_t bg = 0x444444FF;
   uint32_t fg = 0xFFFFFFFF;
@@ -81,6 +85,15 @@ static void btn_render(t_ui_element *e, mlx_image_t *canvas)
     mlx_put_pixel(canvas, e->x, e->y + py, fg);
     mlx_put_pixel(canvas, e->x + e->w - 1, e->y + py, fg);
   }
+  
+  size_t  len        = strlen(btn->label);
+  int     text_w     = (int)len * LETTER_PIXEL_SIZE_W;
+  int     text_h     = LETTER_PIXEL_SIZE_H;
+  int     text_x     = e->x + (e->w - text_w) / 2;
+  int     text_y     = e->y + (e->h - text_h) / 2;
+
+  mlx_put_string_to_image(g_app.mlx, canvas, btn->label, text_x, text_y);
+
   /* stub: draw text centered – replace with MLX42 text API */
   /* e.g. mlx_put_string(mlx, btn->label, center_x, center_y, fg); */
 }

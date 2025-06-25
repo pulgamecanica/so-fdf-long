@@ -7,7 +7,6 @@
 static void on_enter(t_app *app)
 {
   (void)app;
-  puts("Entered gameplay");
   /* load textures/shaders for app->selected_game/app->selected_map */
 }
 

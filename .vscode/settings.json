@@ -4,6 +4,10 @@
     "launcher_scene.h": "c",
     "scene.h": "c",
     "mlx42.h": "c",
-    "gameplay_scene.h": "c"
+    "gameplay_scene.h": "c",
+    "compare": "c",
+    "cstdint": "c",
+    "stdbool.h": "c",
+    "random": "c"
   }
 }
