@@ -2,10 +2,12 @@
 #include "mlx_utils.h"
 #include "state.h"
 #include <MLX42/MLX42.h>
+#include <stdio.h>
 
 static void on_enter(t_app *app)
 {
   (void)app;
+  puts("Entered gameplay");
   /* load textures/shaders for app->selected_game/app->selected_map */
 }
 

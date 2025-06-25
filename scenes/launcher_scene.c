@@ -40,7 +40,7 @@ static void update(t_app *app)
 static void render(t_app *app)
 {
   /* clear to black */
-  mlx_set_background(app->mlx, 0x000000FF);
+  mlx_set_background(app->mlx, 0x4242FF);
   /* stub: you’d draw labels[0..2], highlighting ‘selection’ */
 }
 
