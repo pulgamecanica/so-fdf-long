@@ -1,6 +1,10 @@
 #include "fractol/numeric/backend.h"
 #include "fractol/fractal_context.h"
+#include "fractol/formula.h"
+#include "app.h"
 #include <stdlib.h>
+
+extern t_app g_app;
 
 typedef struct s_ldcoord {
   long double r;
@@ -59,18 +63,20 @@ static void ld_screen_to_world(t_fractal_context *ctx, int x, int y, t_coord *ou
   coord->i = ctx->view.center_y + (y - ctx->buffer->height / 2.0) / scale;
 }
 
-static uint32_t ld_compute_pixel(t_fractal_context *ctx, const t_coord *z_) {
-  const t_ldcoord *c = (const t_ldcoord *)z_;
-  t_ldcoord z = { 0.0L, 0.0L };
+static double ld_get_re(const t_coord *z) {
+  return (double)((t_ldcoord *)z)->r;
+}
 
-  uint32_t iter = 0;
-  while (iter < (uint32_t)ctx->max_iterations && (z.r * z.r + z.i * z.i) <= 4.0L) {
-    long double tmp = z.r * z.r - z.i * z.i + c->r;
-    z.i = 2.0L * z.r * z.i + c->i;
-    z.r = tmp;
-    iter++;
-  }
-  return iter;
+static double ld_get_im(const t_coord *z) {
+  return (double)((t_ldcoord *)z)->i;
+}
+
+static void ld_set_re(t_coord *z, double re) {
+  ((t_ldcoord *)z)->r = (long double)re;
+}
+
+static void ld_set_im(t_coord *z, double im) {
+  ((t_ldcoord *)z)->i = (long double)im;
 }
 
 const t_precision_backend g_long_double_backend = {
@@ -83,5 +89,8 @@ const t_precision_backend g_long_double_backend = {
   .add = ld_add,
   .modulus_squared = ld_modulus_squared,
   .screen_to_world = ld_screen_to_world,
-  .compute_pixel = ld_compute_pixel
+  .get_re = ld_get_re,
+  .get_im = ld_get_im,
+  .set_re = ld_set_re,
+  .set_im = ld_set_im
 };

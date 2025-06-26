@@ -21,7 +21,9 @@ typedef enum e_coloring_strategy {
 
 typedef enum e_fractal_type {
   FRACTAL_MANDELBROT,
-  FRACTAL_JULIA
+  FRACTAL_MANDELBROT2,
+  FRACTAL_JULIA,
+  BURNING_SHIP,
   // Add more if needed
 } t_fractal_type;
 
@@ -45,5 +47,6 @@ typedef struct s_fractal_context {
 
 t_fractal_context *fractol_create_context(int width, int height);
 void fractol_destroy_context(t_fractal_context *ctx);
+void set_fractal_type(t_fractal_context *ctx, t_fractal_type type);
 
 #endif

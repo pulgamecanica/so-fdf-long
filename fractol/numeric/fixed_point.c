@@ -73,10 +73,22 @@ static void fp_screen_to_world(t_fractal_context *ctx, int x, int y, t_coord *ou
   
 }
 
-static uint32_t fp_compute_pixel(t_fractal_context *ctx, const t_coord *z_) {
-  (void)ctx;(void)z_;
-  return 0;
+static double fp_get_re(const t_coord *z) {
+  return fixed_to_double(((t_fpcoord *)z)->r);
 }
+
+static double fp_get_im(const t_coord *z) {
+  return fixed_to_double(((t_fpcoord *)z)->i);
+}
+
+static void fp_set_re(t_coord *z, double re) {
+  ((t_fpcoord *)z)->r = fixed_from_double(re);
+}
+
+static void fp_set_im(t_coord *z, double im) {
+  ((t_fpcoord *)z)->i = fixed_from_double(im);
+}
+
 
 const t_precision_backend g_fixed_point_backend = {
   .name = "fixed point 32.32",
@@ -88,5 +100,8 @@ const t_precision_backend g_fixed_point_backend = {
   .add = fp_add,
   .modulus_squared = fp_modulus_squared,
   .screen_to_world = fp_screen_to_world,
-  .compute_pixel = fp_compute_pixel
+  .get_re = fp_get_re,
+  .get_im = fp_get_im,
+  .set_re = fp_set_re,
+  .set_im = fp_set_im
 };

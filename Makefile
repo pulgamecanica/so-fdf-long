@@ -18,7 +18,7 @@ SRCS =  $(SRC_MAIN) $(SRC_SCENES) $(SRC_SHARED) $(SRC_SO_LONG) $(SRC_FDF) $(SRC_
 MLX_FLAGS = -LMLX42/build -lmlx42 -ldl -lglfw -lm -lpthread
 MLX_NATIVE_LIB = MLX42/build/libmlx42_native.a
 MLX_WEB_LIB = MLX42/build_web/libmlx42_web.a
-WEB = web/demo.html
+WEB = web/demo.js
 
 all: $(MLX_NATIVE_LIB) $(NAME)
 
@@ -50,7 +50,7 @@ $(WEB): $(SRCS) $(MLX_WEB_LIB)
 		$(MLX_WEB_LIB) \
 		-s USE_GLFW=3 -s USE_WEBGL2=1 -s FULL_ES3=1 -s WASM=1 \
 		-s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
-		-s ALLOW_MEMORY_GROWTH -s MINIFY_HTML=0 \
+		-s ALLOW_MEMORY_GROWTH \
 		--preload-file assets
 
 re: fclean all

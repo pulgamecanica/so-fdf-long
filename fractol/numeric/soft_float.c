@@ -55,10 +55,20 @@ static void sf_screen_to_world(t_fractal_context *ctx, int x, int y, t_coord *ou
   (void)ctx;(void)x;(void)y;(void)out;
 }
 
-static uint32_t sf_compute_pixel(t_fractal_context *ctx, const t_coord *z_) {
-  (void)ctx;(void)z_;
-  return 0;
+static double sf_get_re(const t_coord *z) {
+  return ((t_sfcoord *)z)->r;
+}
 
+static double sf_get_im(const t_coord *z) {
+  return ((t_sfcoord *)z)->i;
+}
+
+static void sf_set_re(t_coord *z, double re) {
+  ((t_sfcoord *)z)->r = (float)re;
+}
+
+static void sf_set_im(t_coord *z, double im) {
+  ((t_sfcoord *)z)->i = (float)im;
 }
 
 const t_precision_backend g_soft_float_backend = {
@@ -71,5 +81,8 @@ const t_precision_backend g_soft_float_backend = {
   .add = sf_add,
   .modulus_squared = sf_modulus_squared,
   .screen_to_world = sf_screen_to_world,
-  .compute_pixel = sf_compute_pixel
+  .get_re = sf_get_re,
+  .get_im = sf_get_im,
+  .set_re = sf_set_re,
+  .set_im = sf_set_im
 };

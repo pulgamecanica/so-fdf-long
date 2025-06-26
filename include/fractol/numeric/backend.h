@@ -27,7 +27,12 @@ typedef struct s_precision_backend {
   double    (*modulus_squared)(const t_coord *z);
 
   void      (*screen_to_world)(t_fractal_context *ctx, int x, int y, t_coord *out);
-  uint32_t  (*compute_pixel)(t_fractal_context *ctx, const t_coord *z);
+  // uint32_t  (*compute_pixel)(t_fractal_context *ctx, const t_coord *z);
+
+  double    (*get_re)(const t_coord *z);
+  double    (*get_im)(const t_coord *z);
+  void      (*set_re)(t_coord *z, double re);
+  void      (*set_im)(t_coord *z, double im);
 } t_precision_backend;
 
 #endif

@@ -23,6 +23,7 @@
     "fractal_context.h": "c",
     "pixel_buffer.h": "c",
     "stdint.h": "c",
-    "fractol.h": "c"
+    "fractol.h": "c",
+    "app.h": "c"
   }
 }
