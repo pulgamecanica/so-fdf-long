@@ -6,9 +6,9 @@ CFLAGS = -O3 -Wall -Wextra -Werror -Iinclude -IMLX42/include
 SRC_MAIN = $(wildcard main/*.c)
 SRC_SCENES = $(wildcard scenes/*.c)
 SRC_SHARED = $(wildcard shared/*.c)
-SRC_SO_LONG = $(wildcard so_long/*.c)
-SRC_FDF = $(wildcard fdf/*.c)
-SRC_FRACTOL = $(wildcard fractol/*.c)
+SRC_SO_LONG = $(wildcard so_long/*.c) $(wildcard so_long/*/*.c) 
+SRC_FDF = $(wildcard fdf/*.c) $(wildcard fdf/*/*.c)
+SRC_FRACTOL = $(wildcard fractol/*.c) $(wildcard fractol/*/*.c)
 
 OBJS = $(SRC_MAIN:.c=.o) $(SRC_SCENES:.c=.o) $(SRC_SHARED:.c=.o) \
        $(SRC_SO_LONG:.c=.o) $(SRC_FDF:.c=.o) $(SRC_FRACTOL:.c=.o)
@@ -18,7 +18,7 @@ SRCS =  $(SRC_MAIN) $(SRC_SCENES) $(SRC_SHARED) $(SRC_SO_LONG) $(SRC_FDF) $(SRC_
 MLX_FLAGS = -LMLX42/build -lmlx42 -ldl -lglfw -lm -lpthread
 MLX_NATIVE_LIB = MLX42/build/libmlx42_native.a
 MLX_WEB_LIB = MLX42/build_web/libmlx42_web.a
-WEB = web/demo.html
+WEB = web/demo.js
 
 all: $(MLX_NATIVE_LIB) $(NAME)
 

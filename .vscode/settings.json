@@ -16,6 +16,13 @@
     "stdlib.h": "c",
     "state.h": "c",
     "fractol_gameplay.h": "c",
-    "ui_manager.h": "c"
+    "ui_manager.h": "c",
+    "backend.h": "c",
+    "fixed_point.h": "c",
+    "strategy.h": "c",
+    "fractal_context.h": "c",
+    "pixel_buffer.h": "c",
+    "stdint.h": "c",
+    "fractol.h": "c"
   }
 }
