@@ -22,6 +22,16 @@ static void loop_hook(void *param)
 
   state_update(app);
   state_render(app);
+  app->scroll_x = 0.0;
+  app->scroll_y = 0.0;
+}
+
+static void scroll_callback(double xdelta, double ydelta, void *param)
+{
+  t_app *app = param;
+  
+  app->scroll_x += xdelta;
+  app->scroll_y += ydelta;
 }
 
 #ifdef WEB
@@ -41,6 +51,7 @@ void start(void)
   }
 
   state_init(&g_app);
+  mlx_scroll_hook(g_app.mlx, scroll_callback, &g_app);
   mlx_loop_hook(g_app.mlx, loop_hook, &g_app);
 
 #ifdef WEB

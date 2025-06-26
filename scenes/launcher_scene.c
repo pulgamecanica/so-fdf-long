@@ -99,6 +99,7 @@ static void render(t_app *app)
   mlx_set_background(app->mlx, 0x4242FF);
   /* stub: you’d draw labels[0..2], highlighting ‘selection’ */
   ui_manager_render(&ui, canvas);
+  
 }
 
 const t_scene launcher_scene = {

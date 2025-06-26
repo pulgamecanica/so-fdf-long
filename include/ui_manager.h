@@ -8,6 +8,7 @@
 typedef struct s_ui_manager {
   t_ui_element **elements;
   size_t         count;
+  bool           was_mouse_down;
 } t_ui_manager;
 
 /* Initialize/tear-down; you must call destroy when done */

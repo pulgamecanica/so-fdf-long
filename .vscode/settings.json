@@ -9,6 +9,13 @@
     "cstdint": "c",
     "stdbool.h": "c",
     "random": "c",
-    "fdf_menu.h": "c"
+    "fdf_menu.h": "c",
+    "so_long_menu.h": "c",
+    "cstdlib": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "state.h": "c",
+    "fractol_gameplay.h": "c",
+    "ui_manager.h": "c"
   }
 }

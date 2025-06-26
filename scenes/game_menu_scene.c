@@ -52,6 +52,8 @@ static void update(t_app *app)
   if (idx < 0 || idx >= MENU_COUNT)
     return;
   menu_updates[idx](app);
+  if (mlx_is_key_down(app->mlx, MLX_KEY_ESCAPE))
+    state_transition(app, STATE_LAUNCHER);
 }
 
 static void render(t_app *app)

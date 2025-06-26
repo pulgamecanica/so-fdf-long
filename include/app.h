@@ -11,6 +11,8 @@ typedef struct s_app {
   mlx_t  *mlx;
   int     selected_game;  // 0: fract-ol, 1: fdf, 2: so-long
   int     selected_map;   // per-game map/function index
+  double  scroll_x;
+  double  scroll_y;
 } t_app;
 
 /* forward */

@@ -5,6 +5,7 @@ void ui_manager_init(t_ui_manager *mgr)
 {
   mgr->elements = NULL;
   mgr->count    = 0;
+  mgr->was_mouse_down = false;
 }
 
 void ui_manager_destroy(t_ui_manager *mgr)
@@ -52,13 +53,15 @@ void ui_manager_update(t_ui_manager *mgr, mlx_t *mlx)
       mgr->elements[i]->update(mgr->elements[i], mlx);
 
   /* 2) check clicks */
-  if (mlx_is_mouse_down(mlx, MLX_MOUSE_BUTTON_LEFT)) {
+  bool mouse_down = mlx_is_mouse_down(mlx, MLX_MOUSE_BUTTON_LEFT);
+  if (!mouse_down && mgr->was_mouse_down) {
     for (size_t i = 0; i < mgr->count; ++i) {
       t_ui_element *e = mgr->elements[i];
       if (e->on_click && ui_element_hit(e, mx, my))
         e->on_click(e, MLX_MOUSE_BUTTON_LEFT, mx, my);
     }
   }
+  mgr->was_mouse_down = mouse_down;
 }
 
 void ui_manager_render(t_ui_manager *mgr, mlx_image_t *canvas)
