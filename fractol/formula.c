@@ -78,7 +78,6 @@ static uint32_t formula_burning_ship(const t_coord *c, t_fractal_context *ctx) {
   return iter;
 }
 
-
 t_fractal_formula g_fractal_formulas[] = {
   formula_mandelbrot,
   formula_mandelbrot2,

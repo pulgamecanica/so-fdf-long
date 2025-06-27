@@ -7,6 +7,4 @@
 
 typedef uint32_t (*t_fractal_formula)(const t_coord *z, t_fractal_context *ctx);
 
-extern t_fractal_formula g_fractal_formulas[];
-
 #endif

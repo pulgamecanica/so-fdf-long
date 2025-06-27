@@ -26,6 +26,7 @@ t_fractol *fractol_create(int width, int height) {
   }
 
   f->paused = false;
+  f->show_dashboard = true;
   return f;
 }
 
@@ -40,7 +41,6 @@ void fractol_destroy(t_fractol *f) {
 void fractol_update(t_fractol *f) {
   if (!f || f->paused)
     return;
-
   g_render_strategies[f->ctx->render_strategy](f->ctx);
 }
 
@@ -48,15 +48,21 @@ void fractol_render(t_fractol *f) {
   if (!f || !f->canvas)
     return;
 
+  const t_precision_backend *b = f->ctx->backend;
+  t_coord *z = b->create(0, 0);
   t_pixel_buffer *buf = f->ctx->buffer;
+  
   for (int y = 0; y < buf->height; ++y) {
     for (int x = 0; x < buf->width; ++x) {
       int idx = y * buf->width + x;
+
+      b->screen_to_world(f->ctx, x, y, z);
       uint32_t iter = buf->data[idx].iterations;
-      uint32_t color = iter_to_color(iter, f->ctx->max_iterations, f->ctx);
+      uint32_t color = iter_to_color(iter, f->ctx->max_iterations, z, f->ctx);
       mlx_put_pixel(f->canvas, x, y, color);
     }
   }
 
+  b->destroy(z);
   mlx_image_to_window(g_app.mlx, f->canvas, 0, 0);
 }

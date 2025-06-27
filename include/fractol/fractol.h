@@ -1,6 +1,7 @@
 #ifndef FRACTOL_H
 #define FRACTOL_H
 
+#include "button.h"
 #include "fractol/numeric/backend.h"
 #include "fractol/fractal_context.h"
 #include "pixel_buffer.h"
@@ -11,6 +12,7 @@ typedef struct s_fractol {
   t_fractal_context *ctx;
   mlx_image_t       *canvas;
   bool               paused;
+  bool               show_dashboard;
 } t_fractol;
 
 t_fractol *fractol_create(int width, int height);

@@ -24,6 +24,8 @@
     "pixel_buffer.h": "c",
     "stdint.h": "c",
     "fractol.h": "c",
-    "app.h": "c"
+    "app.h": "c",
+    "math.h": "c",
+    "dashboard.h": "c"
   }
 }
