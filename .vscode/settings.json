@@ -26,6 +26,7 @@
     "fractol.h": "c",
     "app.h": "c",
     "math.h": "c",
-    "dashboard.h": "c"
+    "dashboard.h": "c",
+    "mlx_utils.h": "c"
   }
 }

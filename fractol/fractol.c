@@ -26,7 +26,8 @@ t_fractol *fractol_create(int width, int height) {
   }
 
   f->paused = false;
-  f->show_dashboard = true;
+  f->show_dashboard = false;
+  f->is_selecting = false;
   return f;
 }
 
@@ -41,7 +42,12 @@ void fractol_destroy(t_fractol *f) {
 void fractol_update(t_fractol *f) {
   if (!f || f->paused)
     return;
-  g_render_strategies[f->ctx->render_strategy](f->ctx);
+
+  if (f->ctx->force_redraw)
+    fractol_reset_render(f->ctx);
+
+  if (f->ctx->dirty)
+    g_render_strategies[f->ctx->render_strategy](f->ctx);
 }
 
 void fractol_render(t_fractol *f) {
@@ -64,5 +70,5 @@ void fractol_render(t_fractol *f) {
   }
 
   b->destroy(z);
-  mlx_image_to_window(g_app.mlx, f->canvas, 0, 0);
+  // mlx_image_to_window(g_app.mlx, f->canvas, 0, 0);
 }

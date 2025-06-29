@@ -69,7 +69,7 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
 
     /* scrollbar */
     int sbh_zone = h - ah - gap; // height available for scrollbar
-    int sbw = w / 20;
+    int sbw = 5;
     int sbx = x + w - sbw;
     int sbh = h / 10;
     int sby = y + (int)( (double)sl->offset / (sl->count - sl->visible_count) * (sbh_zone - sbh) );
@@ -93,22 +93,23 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
       for (int dy = 0; dy < ah; ++dy) {
         for (int dx = -dy; dx <= dy; ++dx) {
           int px = cx + dx;
-          int py = y + h - 1 - dy + arrow_margin - gap;
+          int py = y + h - dy + arrow_margin - gap;
           mlx_put_pixel(canvas, px, py, 0xFFFFFFFF);
         }
       }
     }
 
-    /* clear vertical */
+    /* clear vertical for scrollbar */
+    int scroll_bar_padding_left = 6;
     for (int px = 0; px < sbw; ++px) {
       for (int py = 0; py < h; ++py) {
-        mlx_put_pixel(canvas, sbx + px, y + py, 0x00000000); // fully transparent
+        mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, y + py, 0x00000000); // fully transparent
       }
     }
 
     for (int px = 0; px < sbw; ++px)
       for (int py = 0; py < sbh; ++py)
-        mlx_put_pixel(canvas, sbx + px, sby + py, 0x888888FF);
+        mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, sby + py, 0x888888FF);
   }
 }
 

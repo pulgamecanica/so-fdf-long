@@ -6,10 +6,11 @@
 #include "state.h"
 #include <MLX42/MLX42.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define OPTIONS_COUNT 3
 #define BUTTON_WIDTH  200
-#define BUTTON_HEIGHT 50
+#define BUTTON_HEIGHT 150
 #define SPACING       20
 
 
@@ -22,6 +23,12 @@ static const char *labels[OPTIONS_COUNT] = {
   "fract-ol",
   "fdf",
   "so-long"
+};
+
+static const char *backgrounds[OPTIONS_COUNT] = {
+  "assets/fractol/menu_button.png",
+  "",
+  ""
 };
 
 static void btn_callback(t_button *btn)
@@ -52,6 +59,8 @@ static void add_buttons(t_app* app) {
                                BUTTON_WIDTH, BUTTON_HEIGHT,
                                labels[i],
                                btn_callback);
+    if (strlen(backgrounds[i]))
+      button_set_background_path(buttons[i], backgrounds[i]);
     ui_manager_add(&ui, button_as_element(buttons[i]));
   }
 }

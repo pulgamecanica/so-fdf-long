@@ -22,14 +22,17 @@ static const char *color_labels[] = {
 #define COLOR_BUTTON_W 150
 #define COLOR_BUTTON_H 20
 #define COLOR_BUTTON_GAP 5
+#define CLOSE_BUTTON_SIZE 16
 
 static t_ui_manager ui;
 static t_scroll_list *color_scroll_list = NULL;
 static t_button *color_buttons[COLOR_STRATEGY_COUNT];
+static t_button *close_dashboard;
+extern t_fractol *g_fractol;
+
 
 static void on_map_select(t_button *btn) {
   extern t_app g_app;
-  extern t_fractol *g_fractol;
 
 
   for (int i = 0; i < COLOR_STRATEGY_COUNT; ++i) {
@@ -41,11 +44,21 @@ static void on_map_select(t_button *btn) {
   }
 }
 
+static void on_close_dashboard(t_button *btn)
+{
+  (void)btn;
+  if (g_fractol)
+    g_fractol->show_dashboard = false;
+}
+
 void init_fractol_dashboard(t_app *app, const t_fractol *f) {
   (void)f;
   ui_manager_init(&ui);
 
   const int dashboard_padding = 30;
+
+  const int dashboard_x = (app->mlx->width - FRACTOL_DASHBOARD_WIDTH) / 2;
+  const int dashboard_y = (app->mlx->height - FRACTOL_DASHBOARD_HEIGTH) / 2;
 
   int cx = (app->mlx->width / 2) - (FRACTOL_DASHBOARD_WIDTH / 2) + dashboard_padding;
   int cy = (app->mlx->height / 2) - (FRACTOL_DASHBOARD_HEIGTH / 2) + dashboard_padding;
@@ -65,6 +78,19 @@ void init_fractol_dashboard(t_app *app, const t_fractol *f) {
       exit(EXIT_FAILURE);
   }
 
+  close_dashboard = button_create(
+    app->mlx,
+    dashboard_x + FRACTOL_DASHBOARD_WIDTH - CLOSE_BUTTON_SIZE - 10, 
+    dashboard_y + 10,
+    CLOSE_BUTTON_SIZE,
+    CLOSE_BUTTON_SIZE,
+    "",
+    on_close_dashboard
+  );
+
+  button_set_background_path(close_dashboard, CLOSE_BUTTON_BG_PATH);
+  button_set_background_color(close_dashboard, 0x424242FF);
+  ui_manager_add(&ui, button_as_element(close_dashboard));
   ui_manager_add(&ui, scroll_list_as_element(color_scroll_list));
 }
 
@@ -84,7 +110,7 @@ void render_fractol_dashboard(t_app *app, const t_fractol *f) {
 
   for (int y = 0; y < FRACTOL_DASHBOARD_HEIGTH + border * 2; ++y) {
     for (int x = 0; x < FRACTOL_DASHBOARD_WIDTH + border * 2; ++x) {
-      mlx_put_pixel(f->canvas, x_start - border + x, y_start - border + y, 0x0311bff11);
+      mlx_put_pixel(f->canvas, x_start - border + x, y_start - border + y, 0x0311bfFF);
     }
   }
   
@@ -109,6 +135,7 @@ void render_fractol_dashboard(t_app *app, const t_fractol *f) {
 void destroy_fractol_dashboard(t_app *app, const t_fractol *f) {
   (void)app;
   (void)f;
+  button_destroy(close_dashboard);
   for (int i = 0; i < COLOR_STRATEGY_COUNT; ++i)
     button_destroy(color_buttons[i]);
   ui_manager_remove(&ui, scroll_list_as_element(color_scroll_list), scroll_list_destroy);

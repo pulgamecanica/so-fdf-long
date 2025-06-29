@@ -5,6 +5,9 @@
 #include <MLX42/MLX42.h>
 #include <stdint.h>
 
+#define MAX(x, y) (x > y ? x : y)
+#define MIN(x, y) (x < y ? x : y)
+
 #define BPP sizeof(int32_t)
 
 /**
@@ -34,6 +37,7 @@ void put_img_to_img(mlx_image_t *dest, mlx_image_t *src, int dst_x, int dst_y);
  * 0000 0000 B (4th byte)
  **/
 int32_t mlx_get_pixel(mlx_image_t* image, uint32_t x, uint32_t y);
+int32_t mlx_get_pixel_tex(mlx_texture_t* image, uint32_t x, uint32_t y);
 
 /**
  * Draw `str` into `dest` at (x,y):
@@ -47,5 +51,7 @@ void mlx_put_string_to_image(mlx_t       *mlx,
                              int          x,
                              int          y);
 
+
+void draw_rectangle(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t color);
 
 #endif // MLX_UTILS_H

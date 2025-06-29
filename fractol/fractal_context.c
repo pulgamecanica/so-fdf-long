@@ -27,6 +27,11 @@ t_fractal_context *fractol_create_context(int width, int height) {
   ctx->coloring_strategy = COLOR_GRAYSCALE; // should remember selection (store in app?)
   ctx->dirty = true;
   ctx->paused = false;
+  ctx->cursor_x = 0;
+  ctx->cursor_y = 0;
+  ctx->force_redraw = true;
+  ctx->max_formula_calls = 10000;
+  ctx->max_time_per_frame = 0.004;
 
   set_fractal_type(ctx, g_app.selected_map);
   return ctx;
@@ -40,4 +45,18 @@ void fractol_destroy_context(t_fractal_context *ctx) {
   if (!ctx) return;
   pixel_buffer_destroy(ctx->buffer);
   free(ctx);
+}
+
+void fractol_reset_render(t_fractal_context *ctx) {
+  if (!ctx || !ctx->buffer) return;
+
+  ctx->cursor_x = 0;
+  ctx->cursor_y = 0;
+  ctx->dirty = true;
+  ctx->force_redraw = false;
+
+  for (int i = 0; i < ctx->buffer->width * ctx->buffer->height; ++i) {
+    ctx->buffer->data[i].done = false;
+    ctx->buffer->data[i].iterations = 0;
+  }
 }

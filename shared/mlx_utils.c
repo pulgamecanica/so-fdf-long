@@ -1,3 +1,4 @@
+#include "app.h"
 #include "mlx_utils.h"
 #include <glad/glad.h>    // MLX42 uses GLAD for its GL context
 #include <GLFW/glfw3.h>   // ensure GLFW symbols are pulled in
@@ -34,6 +35,14 @@ int32_t mlx_get_pixel(mlx_image_t* image, uint32_t x, uint32_t y) {
     * (pixelstart + 2), *(pixelstart + 3));
 }
 
+int32_t mlx_get_pixel_tex(mlx_texture_t* image, uint32_t x, uint32_t y) {
+  if (x > image->width || y > image->height)
+    return 0xFF000000;
+  uint8_t* pixelstart = image->pixels + (y * image->width + x) * BPP;
+  return get_rgba(*(pixelstart), *(pixelstart + 1),
+    * (pixelstart + 2), *(pixelstart + 3));
+}
+
 void put_img_to_img(mlx_image_t *dest, mlx_image_t *src, int dst_x, int dst_y)
 {
   for (uint32_t y = 0; y < src->height; ++y) {
@@ -60,4 +69,24 @@ void mlx_put_string_to_image(mlx_t       *mlx,
 
   // 3) clean up
   mlx_delete_image(mlx, txt);
+}
+
+void draw_rectangle(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t color) {
+  extern t_app g_app;
+  
+  int min_x = MIN(x1, x2), max_x = MAX(x1, x2);
+  int min_y = MIN(y1, y2), max_y = MAX(y1, y2);
+
+  for (int x = min_x; x <= max_x; ++x) {
+    if (x < 0 || x >= g_app.mlx->width || x >= (int)img->width)
+      continue;
+    mlx_put_pixel(img, x, min_y, color);
+    mlx_put_pixel(img, x, max_y, color);
+  }
+  for (int y = min_y; y <= max_y; ++y) {
+    if (y < 0 || y >= g_app.mlx->width || y  >= (int)img->height)
+      continue;
+    mlx_put_pixel(img, min_x, y, color);
+    mlx_put_pixel(img, max_x, y, color);
+  }
 }

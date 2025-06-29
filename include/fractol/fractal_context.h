@@ -43,10 +43,16 @@ typedef struct s_fractal_context {
   t_coloring_strategy        coloring_strategy;
   bool                       dirty;
   bool                       paused;
+  int cursor_x;
+  int cursor_y;
+  int max_formula_calls;
+  double max_time_per_frame;
+  bool force_redraw;
 } t_fractal_context;
 
 t_fractal_context *fractol_create_context(int width, int height);
 void fractol_destroy_context(t_fractal_context *ctx);
 void set_fractal_type(t_fractal_context *ctx, t_fractal_type type);
+void fractol_reset_render(t_fractal_context *ctx);
 
 #endif
