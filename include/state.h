@@ -19,5 +19,6 @@ void state_init(t_app *app);
 void state_transition(t_app *app, t_state new_state);
 void state_update(t_app *app);
 void state_render(t_app *app);
+void state_restart(t_app *app);
 
 #endif // STATE_H

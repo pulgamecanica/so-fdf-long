@@ -48,3 +48,12 @@ void state_render(t_app *app)
   if (current_scene && current_scene->render)
     current_scene->render(app);
 }
+
+void state_restart(t_app *app) {
+  if (!current_scene) return;
+
+  if (current_scene->on_exit)
+    current_scene->on_exit(app);
+  if (current_scene->on_enter)
+    current_scene->on_enter(app);
+}

@@ -13,6 +13,8 @@ typedef struct s_app {
   int     selected_map;   // per-game map/function index
   double  scroll_x;
   double  scroll_y;
+  bool    size_ok;
+  bool    should_resize;
 } t_app;
 
 /* forward */
