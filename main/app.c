@@ -13,53 +13,16 @@
 /* user-adjustable window size */
 #define WIDTH 1200
 #define HEIGHT 800
-#define RESIZE_WINDOW_ASSET_PATH "assets/resize_window_bg.png"
-
+#define RESIZE_WINDOW_PATH "assets/resize_window_bg.png"
 
 t_app g_app;
 
 static mlx_image_t *resize_image = NULL;
 static mlx_texture_t *resize_tex = NULL;
 
-void init_resize_image(t_app *app) {
-  if (!resize_tex) {
-    resize_tex = mlx_load_png(RESIZE_WINDOW_ASSET_PATH);
-    if (!resize_tex)
-      exit(EXIT_FAILURE);
-  }
-
-  if (resize_image)
-    mlx_delete_image(g_app.mlx, resize_image);
-
-  resize_image = mlx_new_image(app->mlx, app->mlx->width, app->mlx->height);
-  if (!resize_image) {
-    mlx_delete_texture(resize_tex);
-    exit(EXIT_FAILURE);
-  }
-
-  // Simple nearest-neighbor resize
-  for (int y = 0; y < app->mlx->height; ++y) {
-    for (int x = 0; x < app->mlx->width; ++x) {
-      int src_x = x * resize_tex->width / app->mlx->width;
-      int src_y = y * resize_tex->height / app->mlx->height;
-      uint32_t color = mlx_get_pixel_tex(resize_tex, src_x, src_y);
-      
-      // Decompose
-      uint8_t r = (color >> 24) & 0xFF;
-      uint8_t g = (color >> 16) & 0xFF;
-      uint8_t b = (color >> 8)  & 0xFF;
-      // Set alpha to 50% (128 out of 255)
-      uint8_t a = 180;
-
-      // Repack
-      color = (r << 24) | (g << 16) | (b << 8) | a;
-      
-      mlx_put_pixel(resize_image, x, y, color);
-    }
-  }
-
+static void init_resize_image(t_app *app) {
+  util_resize_texture_to_image(app, &resize_tex, RESIZE_WINDOW_PATH, &resize_image);
 }
-
 
 /* called every frame by mlx_loop_hook */
 static void loop_hook(void *param)
@@ -74,7 +37,7 @@ static void loop_hook(void *param)
   if (app->should_resize) {
     state_restart(app);
     app->should_resize = false;
-  } 
+  }
 
   state_update(app);
   state_render(app);
@@ -94,7 +57,7 @@ static void scroll_callback(double xdelta, double ydelta, void *param)
 static void resize_hook(int32_t width, int32_t height, void* param) {
   t_app *app = param;
 
-  if (width < 500 || height < 500)
+  if (width < 650 || height < 400)
     app->size_ok = false;
   else
     app->size_ok = true;

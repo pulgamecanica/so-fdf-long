@@ -3,6 +3,7 @@
 #include <glad/glad.h>    // MLX42 uses GLAD for its GL context
 #include <GLFW/glfw3.h>   // ensure GLFW symbols are pulled in
 #include <stdint.h>
+#include <stdlib.h>
 
 void mlx_set_background(mlx_t *mlx, uint32_t color)
 {
@@ -89,4 +90,56 @@ void draw_rectangle(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t c
     mlx_put_pixel(img, min_x, y, color);
     mlx_put_pixel(img, max_x, y, color);
   }
+}
+
+mlx_image_t *util_resize_texture_to_image(t_app *app,
+                                          mlx_texture_t **texture,
+                                          const char *path,
+                                          mlx_image_t **image_out) {
+  if (!texture || !app)
+    return NULL;
+
+  // Load texture if needed
+  if (*texture == NULL) {
+    *texture = mlx_load_png(path);
+    if (!*texture)
+      return NULL;
+  }
+
+  // Destroy existing image if needed
+  if (image_out && *image_out) {
+    mlx_delete_image(app->mlx, *image_out);
+    *image_out = NULL;
+  }
+
+  mlx_image_t *img = mlx_new_image(app->mlx, app->mlx->width, app->mlx->height);
+  if (!img) {
+    mlx_delete_texture(*texture);
+    return NULL;
+  }
+
+  for (int y = 0; y < (int)app->mlx->height; ++y) {
+    for (int x = 0; x < (int)app->mlx->width; ++x) {
+      int src_x = x * (*texture)->width / app->mlx->width;
+      int src_y = y * (*texture)->height / app->mlx->height;
+      uint32_t color = mlx_get_pixel_tex(*texture, src_x, src_y);
+
+      // Decompose
+      uint8_t r = (color >> 24) & 0xFF;
+      uint8_t g = (color >> 16) & 0xFF;
+      uint8_t b = (color >> 8)  & 0xFF;
+      // Adjust alpha
+      uint8_t a = 180;
+
+      // Repack
+      color = (r << 24) | (g << 16) | (b << 8) | a;
+
+      mlx_put_pixel(img, x, y, color);
+    }
+  }
+
+  if (image_out)
+    *image_out = img;
+
+  return img;
 }

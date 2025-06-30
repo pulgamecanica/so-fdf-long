@@ -3,7 +3,6 @@
 
 #include "app.h"
 
-
 void fdf_menu_on_enter(t_app *app);
 void fdf_menu_on_exit(t_app *app);
 void fdf_menu_update(t_app *app);

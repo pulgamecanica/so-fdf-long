@@ -2,6 +2,7 @@
 #ifndef MLX_UTILS_H
 #define MLX_UTILS_H
 
+#include "app.h"
 #include <MLX42/MLX42.h>
 #include <stdint.h>
 
@@ -53,5 +54,29 @@ void mlx_put_string_to_image(mlx_t       *mlx,
 
 
 void draw_rectangle(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t color);
+
+
+/**
+ * Resize a texture into a new MLX image matching the app window size.
+ *
+ * Behavior:
+ *   1) If `*texture == NULL`, loads it from `path` via mlx_load_png.
+ *   2) If `*image_out != NULL`, destroys the existing image.
+ *   3) Creates a new image using app->mlx dimensions.
+ *   4) Performs nearest-neighbor resizing from texture to image.
+ *   5) Alpha channel is overridden to 180 for all pixels.
+ *
+ *  @param app:        Pointer to the application context (must not be NULL).
+ *  @param texture:    Pointer to a texture pointer; loaded if NULL.
+ *  @param path:       Path to PNG to load if `*texture` is NULL.
+ *  @param image_out:  Optional image output pointer; will be destroyed and replaced.
+ *
+ *  @returns  Newly created image (also stored in `*image_out` if non-NULL),
+ *     or NULL on error (e.g., failed texture or image allocation).
+ */
+mlx_image_t *util_resize_texture_to_image(t_app *app,
+                                          mlx_texture_t **texture,
+                                          const char *path,
+                                          mlx_image_t **image_out);
 
 #endif // MLX_UTILS_H

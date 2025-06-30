@@ -12,6 +12,7 @@
 #define BUTTON_WIDTH  200
 #define BUTTON_HEIGHT 150
 #define SPACING       20
+#define TUX_PATH      "assets/tux_bg.png"
 
 
 static t_ui_manager  ui;
@@ -31,6 +32,13 @@ static const char *backgrounds[OPTIONS_COUNT] = {
   ""
 };
 
+static mlx_image_t *tux_image = NULL;
+static mlx_texture_t *tux_tex = NULL;
+
+static void init_resize_image(t_app *app) {
+  util_resize_texture_to_image(app, &tux_tex, TUX_PATH, &tux_image);
+}
+
 static void btn_callback(t_button *btn)
 {
   extern t_app g_app;
@@ -46,19 +54,20 @@ static void btn_callback(t_button *btn)
 
 static void add_buttons(t_app* app) {
   /* compute vertical centering */
-  int total_h = OPTIONS_COUNT * BUTTON_HEIGHT
-              + (OPTIONS_COUNT - 1) * SPACING;
-  int start_y = (app->mlx->height - total_h) / 2;
+  int total_w = OPTIONS_COUNT * BUTTON_WIDTH +
+                (OPTIONS_COUNT - 1) * SPACING;
+  int start_x = (app->mlx->width - total_w) / 2;
+  int by = (app->mlx->height - BUTTON_HEIGHT) / 2;
+
 
   /* create & register buttons */
   for (int i = 0; i < OPTIONS_COUNT; ++i) {
-    int bx = (app->mlx->width  - BUTTON_WIDTH) / 2;
-    int by = start_y + i * (BUTTON_HEIGHT + SPACING);
+    int bx = start_x + i * (BUTTON_WIDTH + SPACING);
     buttons[i] = button_create(app->mlx,
-                               bx, by,
-                               BUTTON_WIDTH, BUTTON_HEIGHT,
-                               labels[i],
-                               btn_callback);
+                              bx, by,
+                              BUTTON_WIDTH, BUTTON_HEIGHT,
+                              labels[i],
+                              btn_callback);
     if (strlen(backgrounds[i]))
       button_set_background_path(buttons[i], backgrounds[i]);
     ui_manager_add(&ui, button_as_element(buttons[i]));
@@ -77,6 +86,7 @@ static void on_scene_enter(t_app *app)
   ui_manager_init(&ui);
 
   add_buttons(app);
+  init_resize_image(app);
 }
 
 static void on_scene_exit(t_app *app)
@@ -88,6 +98,13 @@ static void on_scene_exit(t_app *app)
   }
   ui_manager_destroy(&ui);
 
+  if (tux_image) {
+    mlx_delete_image(app->mlx, tux_image);
+    tux_image = NULL;
+  } if (tux_tex) {
+    mlx_delete_texture(tux_tex);
+    tux_tex = NULL;
+  }
   mlx_delete_image(app->mlx, canvas);
 }
 
@@ -104,9 +121,8 @@ static void update(t_app *app)
 
 static void render(t_app *app)
 {
-  /* clear to black */
-  mlx_set_background(app->mlx, 0x4242FF);
-  /* stub: you’d draw labels[0..2], highlighting ‘selection’ */
+  (void)app;
+  put_img_to_img(canvas, tux_image, 0, 0);
   ui_manager_render(&ui, canvas);
   
 }
