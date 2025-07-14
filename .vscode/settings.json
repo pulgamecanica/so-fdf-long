@@ -27,6 +27,14 @@
     "app.h": "c",
     "math.h": "c",
     "dashboard.h": "c",
-    "mlx_utils.h": "c"
+    "mlx_utils.h": "c",
+    "fdf_gameplay.h": "c",
+    "mlx.h": "c",
+    "render_fdf.h": "c",
+    "fdf.h": "c",
+    "camera.h": "c",
+    "map.h": "c",
+    "string.h": "c",
+    "draw_utils.h": "c"
   }
 }

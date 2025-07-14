@@ -15,7 +15,7 @@ OBJS = $(SRC_MAIN:.c=.o) $(SRC_SCENES:.c=.o) $(SRC_SHARED:.c=.o) \
 
 SRCS =  $(SRC_MAIN) $(SRC_SCENES) $(SRC_SHARED) $(SRC_SO_LONG) $(SRC_FDF) $(SRC_FRACTOL)
 
-MLX_FLAGS = -LMLX42/build -lmlx42 -ldl -lglfw -lm -lpthread
+MLX_FLAGS = -LMLX42/build -lmlx42 -ldl -lglfw -lm -lpthread -L Libft -lft
 MLX_NATIVE_LIB = MLX42/build/libmlx42_native.a
 MLX_WEB_LIB = MLX42/build_web/libmlx42_web.a
 WEB = web/demo.js
