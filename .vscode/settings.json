@@ -35,6 +35,12 @@
     "camera.h": "c",
     "map.h": "c",
     "string.h": "c",
-    "draw_utils.h": "c"
+    "draw_utils.h": "c",
+    "readline.h": "c",
+    "scroll_list.h": "c",
+    "ui_element.h": "c",
+    "unistd.h": "c",
+    "mlx42_int.h": "c",
+    "gnl.h": "c"
   }
 }

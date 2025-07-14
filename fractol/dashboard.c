@@ -110,13 +110,13 @@ void render_fractol_dashboard(t_app *app, const t_fractol *f) {
 
   for (int y = 0; y < FRACTOL_DASHBOARD_HEIGTH + border * 2; ++y) {
     for (int x = 0; x < FRACTOL_DASHBOARD_WIDTH + border * 2; ++x) {
-      mlx_put_pixel(f->canvas, x_start - border + x, y_start - border + y, 0x0311bfFF);
+      my_mlx_put_pixel(f->canvas, x_start - border + x, y_start - border + y, 0x0311bfFF);
     }
   }
   
   for (int y = 0; y < FRACTOL_DASHBOARD_HEIGTH; ++y) {
     for (int x = 0; x < FRACTOL_DASHBOARD_WIDTH; ++x) {
-      mlx_put_pixel(f->canvas, x_start + x, y_start + y, 0xFF0000);
+      my_mlx_put_pixel(f->canvas, x_start + x, y_start + y, 0xFF0000);
     }
   }
 

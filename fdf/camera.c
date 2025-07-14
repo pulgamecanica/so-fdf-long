@@ -8,6 +8,7 @@ void camera_init(t_camera *cam) {
     cam->angle_z = 0.0f;
     cam->offset_x = 0.0f;
     cam->offset_y = 0.0f;
+    cam->offset_z = 1.0f;
     cam->mode = PROJECTION_ISO;
 }
 
@@ -34,7 +35,7 @@ static void rotate(float *x, float *y, float *z, const t_camera *cam) {
 void camera_project_point(int x, int y, int z, const t_camera *cam, int *out_x, int *out_y) {
     float fx = x * cam->zoom;
     float fy = y * cam->zoom;
-    float fz = z * cam->zoom;
+    float fz = z * cam->offset_z * cam->zoom;
 
     rotate(&fx, &fy, &fz, cam);
 

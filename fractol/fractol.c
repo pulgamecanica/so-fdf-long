@@ -65,7 +65,7 @@ void fractol_render(t_fractol *f) {
       b->screen_to_world(f->ctx, x, y, z);
       uint32_t iter = buf->data[idx].iterations;
       uint32_t color = iter_to_color(iter, f->ctx->max_iterations, z, f->ctx);
-      mlx_put_pixel(f->canvas, x, y, color);
+      my_mlx_put_pixel(f->canvas, x, y, color);
     }
   }
 

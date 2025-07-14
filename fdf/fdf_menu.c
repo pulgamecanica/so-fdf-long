@@ -6,16 +6,33 @@
 #include <stdlib.h>
 
 static const char *map_labels[] = {
-  "42 Map",
-  "Mandelbrot Map",
-  "Mt. Everest",
+    "High Peaks (100-6)",
+    "Valley Bridge (10-2)",
+    "Rolling Hills (10-70)",
+    "Crater Ridge (20-60)",
+    "42, life and everything",
+    "Jagged Terrain (50-4)",
+    "Basic Terrain Test",
+    "Elemental Columns",
+    "Colored Elements",
+    "Element Grid",
+    "Fractal Element",
+    "Julia Landscape",
+    "Mars Surface",
+    "Negative Plateaus",
+    "Flatland Plateau",
+    "Flat Puzzle (PnP)",
+    "Power Tower (Pylone)",
+    "Pyramid Shape",
+    "Twin Pyramids",
+    "Test Landscape 1",
+    "Test Landscape 2"
 };
 
 #define MAP_COUNT (int)(sizeof(map_labels) / sizeof(*map_labels))
 #define FDF_MENU_BUTTON_W 250
 #define FDF_MENU_BUTTON_H 40
 #define FDF_MENU_GAP 5
-#define LIST_H  200
 
 static t_ui_manager ui;
 static t_scroll_list *scroll_list = NULL;
@@ -35,8 +52,9 @@ static void on_map_select(t_button *btn) {
 }
 
 void fdf_menu_on_enter(t_app *app) {
-   const int WIDTH = app->mlx->width;
+  const int WIDTH = app->mlx->width;
   const int HEIGHT = app->mlx->height;
+  const int LIST_H = HEIGHT - (HEIGHT / 5);
 
   int cx = (WIDTH - FDF_MENU_BUTTON_W) / 2;
   int cy = (HEIGHT - LIST_H) / 2;

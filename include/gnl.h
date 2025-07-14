@@ -9,8 +9,8 @@
 /*   Updated: 2021/11/04 16:44:18 by arosado-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1048
 # endif
@@ -25,7 +25,8 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-char	*ft_strchr_line(const char *s, int c);
-int		ft_strlen_line(char *str);
+char	*get_next_line_no_nl(int fd);
+char	*ft_strchr(const char *s, int c);
+int		ft_strlen(char *str);
 
 #endif

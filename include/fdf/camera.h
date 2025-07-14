@@ -13,6 +13,7 @@ typedef struct s_camera {
     float               angle_z;
     float               offset_x;
     float               offset_y;
+    float               offset_z;
     t_projection_mode   mode;
 } t_camera;
 

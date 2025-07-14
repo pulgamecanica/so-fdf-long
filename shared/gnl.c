@@ -9,15 +9,45 @@
 /*   Updated: 2021/11/04 16:44:00 by arosado-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "gnl.h"
 
-static char	*get_full_line(char *str)
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == 0)
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)s + i);
+	return (NULL);
+}
+
+char	*get_full_line(char *str)
 {
 	char	*res;
 	int		i;
 
 	i = 0;
-	if (ft_strlen_line(str) == 0)
+	if (ft_strlen(str) == 0)
 		return (NULL);
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
@@ -33,7 +63,7 @@ static char	*get_full_line(char *str)
 	return (res);
 }
 
-static char	*ft_strjoin_line(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new;
 	int		i;
@@ -46,8 +76,7 @@ static char	*ft_strjoin_line(char *s1, char *s2)
 	}
 	if (s2 == NULL || s1 == NULL)
 		return (NULL);
-	new = (char *)malloc(sizeof(char)
-			* (ft_strlen_line(s1) + ft_strlen_line(s2) + 1));
+	new = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (new == NULL)
 		return (NULL);
 	i = -1;
@@ -61,7 +90,7 @@ static char	*ft_strjoin_line(char *s1, char *s2)
 	return (new);
 }
 
-static void	read_file_buffer(char *str[], int fd)
+void	read_file_buffer(char *str[], int fd)
 {
 	char	*temp;
 	int		r_count;
@@ -70,7 +99,7 @@ static void	read_file_buffer(char *str[], int fd)
 	if (temp == NULL)
 		return ;
 	r_count = -1;
-	while (!ft_strchr_line(str[fd], '\n') && r_count != 0)
+	while (!ft_strchr(str[fd], '\n') && r_count != 0)
 	{
 		r_count = read(fd, temp, BUFFER_SIZE);
 		if (r_count == -1)
@@ -80,12 +109,12 @@ static void	read_file_buffer(char *str[], int fd)
 			return ;
 		}
 		temp[r_count] = '\0';
-		str[fd] = ft_strjoin_line(str[fd], temp);
+		str[fd] = ft_strjoin(str[fd], temp);
 	}
 	free(temp);
 }
 
-static void	remove_full_line(char *str[], int fd)
+void	remove_full_line(char *str[], int fd)
 {
 	char	*new;
 	int		i;
@@ -100,10 +129,10 @@ static void	remove_full_line(char *str[], int fd)
 		str[fd] = NULL;
 		return ;
 	}
-	new = (char *)malloc(sizeof(char) * (ft_strlen_line(str[fd]) + 1 - i++));
+	new = (char *)malloc(sizeof(char) * (ft_strlen(str[fd]) + 1 - i++));
 	if (new == NULL)
 		return ;
-	new[ft_strlen_line(str[fd]) - i] = '\0';
+	new[ft_strlen(str[fd]) - i] = '\0';
 	k = 0;
 	while (str[fd][i + k] != '\0')
 	{
@@ -127,4 +156,18 @@ char	*get_next_line(int fd)
 	res = get_full_line(str[fd]);
 	remove_full_line(str, fd);
 	return (res);
+}
+
+char	*get_next_line_no_nl(int fd)
+{
+	char	*line;
+	int		len;
+
+	line = get_next_line(fd);
+	if (line == NULL)
+		return (NULL);
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+	return (line);
 }

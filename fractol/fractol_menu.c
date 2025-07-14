@@ -79,7 +79,7 @@ void init_bg(t_app *app) {
       // Repack
       color = (r << 24) | (g << 16) | (b << 8) | a;
       
-      mlx_put_pixel(bg_image, x, y, color);
+      my_mlx_put_pixel(bg_image, x, y, color);
     }
   }
 

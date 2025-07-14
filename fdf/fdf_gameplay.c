@@ -4,7 +4,9 @@
 #include "mlx_utils.h"
 #include <stdio.h>
 
-static t_fdf fdf;
+#define PAN_SPEED   10.0f
+
+t_fdf fdf;
 static int error = 0;
 
 void fdf_gameplay_on_enter(t_app *app) {
@@ -29,8 +31,56 @@ void fdf_gameplay_on_exit(t_app *app) {
 }
 
 void fdf_gameplay_update(t_app *app) {
-  (void)app;
-  // You may want to allow key input to update fdf.cam here
+  if (!fdf.initialized)
+    return;
+
+  bool shift_pressed =  mlx_is_key_down(app->mlx, MLX_KEY_LEFT_SHIFT) ||  mlx_is_key_down(app->mlx, MLX_KEY_RIGHT_SHIFT);
+  if (mlx_is_key_down(app->mlx, MLX_KEY_EQUAL) && shift_pressed)
+    fdf.cam.zoom *= 1.05f;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_MINUS))
+    fdf.cam.zoom *= 0.95f;
+
+  // --- Keyboard movement ---
+  if (mlx_is_key_down(app->mlx, MLX_KEY_LEFT) || mlx_is_key_down(app->mlx, MLX_KEY_A))
+    fdf.cam.offset_x -= PAN_SPEED;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT) || mlx_is_key_down(app->mlx, MLX_KEY_D))
+    fdf.cam.offset_x += PAN_SPEED;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_UP) || mlx_is_key_down(app->mlx, MLX_KEY_W))
+    fdf.cam.offset_y -= PAN_SPEED;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN) || mlx_is_key_down(app->mlx, MLX_KEY_S))
+    fdf.cam.offset_y += PAN_SPEED;
+
+  // --- Mouse dragging ---
+  if (mlx_is_mouse_down(app->mlx, MLX_MOUSE_BUTTON_LEFT)) {
+    int mx, my;
+    mlx_get_mouse_pos(app->mlx, &mx, &my);
+
+    bool ctrl_pressed = mlx_is_key_down(app->mlx, MLX_KEY_LEFT_CONTROL) || mlx_is_key_down(app->mlx, MLX_KEY_RIGHT_CONTROL);
+
+    if (!fdf.dragging) {
+      fdf.dragging = true;
+      fdf.drag_start_x = mx;
+      fdf.drag_start_y = my;
+      fdf.cam_start_offset_x = fdf.cam.offset_x;
+      fdf.cam_start_offset_y = fdf.cam.offset_y;
+      fdf.cam_start_offset_z = fdf.cam.offset_z;  // ← you must add this to t_camera
+    } else {
+      float dx = (float)(mx - fdf.drag_start_x);
+      float dy = (float)(my - fdf.drag_start_y);
+
+      if (ctrl_pressed) {
+        fdf.cam.offset_z = fmaxf(0.01f, fdf.cam_start_offset_z + dy * 0.01f);  // sensitivity control
+      } else {
+        fdf.cam.offset_x = fdf.cam_start_offset_x + dx;
+        fdf.cam.offset_y = fdf.cam_start_offset_y + dy;
+      }
+    }
+  } else {
+    fdf.dragging = false;
+  }
+
+
+  ui_manager_update(fdf.ui, app->mlx);
 }
 
 void fdf_gameplay_render(t_app *app) {
@@ -38,4 +88,5 @@ void fdf_gameplay_render(t_app *app) {
   if (error) return;
   
   render_fdf(&fdf);
+  ui_manager_render(fdf.ui, fdf.canvas);
 }

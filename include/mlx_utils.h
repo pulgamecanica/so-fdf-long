@@ -10,6 +10,7 @@
 #define MIN(x, y) (x < y ? x : y)
 
 #define BPP sizeof(int32_t)
+#define HEX_TO_RGBA(rgb_hex) (((rgb_hex & 0xFF0000) << 8) | ((rgb_hex & 0x00FF00) << 8) | ((rgb_hex & 0x0000FF) << 8) | 0xFF)
 
 /**
  * Clear the entire window to the given RGBA color.
@@ -78,5 +79,8 @@ mlx_image_t *util_resize_texture_to_image(t_app *app,
                                           mlx_texture_t **texture,
                                           const char *path,
                                           mlx_image_t **image_out);
+
+void  my_mlx_put_pixel(mlx_image_t* image, int32_t x, int32_t y, uint32_t color);                                  
+void  my_mlx_put_pixel_alpha(mlx_image_t* image, int32_t x, int32_t y, uint32_t color);                                  
 
 #endif // MLX_UTILS_H

@@ -49,7 +49,7 @@ void put_img_to_img(mlx_image_t *dest, mlx_image_t *src, int dst_x, int dst_y)
   for (uint32_t y = 0; y < src->height; ++y) {
     for (uint32_t x = 0; x < src->width; ++x) {
       if (put_pixel_valid(src, x, y))
-        mlx_put_pixel(dest, dst_x + x, dst_y + y, mlx_get_pixel(src, x, y));
+        my_mlx_put_pixel(dest, dst_x + x, dst_y + y, mlx_get_pixel(src, x, y));
     }
   }
 }
@@ -81,14 +81,14 @@ void draw_rectangle(mlx_image_t *img, int x1, int y1, int x2, int y2, uint32_t c
   for (int x = min_x; x <= max_x; ++x) {
     if (x < 0 || x >= g_app.mlx->width || x >= (int)img->width)
       continue;
-    mlx_put_pixel(img, x, min_y, color);
-    mlx_put_pixel(img, x, max_y, color);
+    my_mlx_put_pixel(img, x, min_y, color);
+    my_mlx_put_pixel(img, x, max_y, color);
   }
   for (int y = min_y; y <= max_y; ++y) {
     if (y < 0 || y >= g_app.mlx->width || y  >= (int)img->height)
       continue;
-    mlx_put_pixel(img, min_x, y, color);
-    mlx_put_pixel(img, max_x, y, color);
+    my_mlx_put_pixel(img, min_x, y, color);
+    my_mlx_put_pixel(img, max_x, y, color);
   }
 }
 
@@ -134,7 +134,7 @@ mlx_image_t *util_resize_texture_to_image(t_app *app,
       // Repack
       color = (r << 24) | (g << 16) | (b << 8) | a;
 
-      mlx_put_pixel(img, x, y, color);
+      my_mlx_put_pixel(img, x, y, color);
     }
   }
 
@@ -142,4 +142,14 @@ mlx_image_t *util_resize_texture_to_image(t_app *app,
     *image_out = img;
 
   return img;
+}
+
+void  my_mlx_put_pixel(mlx_image_t* image, int32_t x, int32_t y, uint32_t color) {
+  if (x < 0 || (uint32_t)x >= image->width || y < 0 || (uint32_t)y >= image->height) return;
+
+  mlx_put_pixel(image, x, y, color);
+}
+
+void  my_mlx_put_pixel_alpha(mlx_image_t* image, int32_t x, int32_t y, uint32_t color) {
+  my_mlx_put_pixel(image, x, y, HEX_TO_RGBA(color));
 }

@@ -1,3 +1,4 @@
+#include "mlx_utils.h"
 #include "fdf/draw_utils.h"
 #include <math.h>
 
@@ -40,7 +41,7 @@ void draw_line(mlx_image_t *img, t_vec2i a, t_vec2i b, uint32_t c1, uint32_t c2)
         uint32_t color = interpolate_color(c1, c2, t);
 
         if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
-            mlx_put_pixel(img, x, y, color);
+            my_mlx_put_pixel_alpha(img, x, y, color);
 
         if (x == b.x && y == b.y)
             break;

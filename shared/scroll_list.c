@@ -1,5 +1,6 @@
 /* scroll_list.c */
 #include "scroll_list.h"
+#include "mlx_utils.h"
 #include "app.h"
 #include <stdlib.h>
 #include <string.h>
@@ -83,7 +84,7 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
         for (int dx = -dy; dx <= dy; ++dx) {
           int px = cx + dx;
           int py = y - ah + dy - arrow_margin; // offset upward
-          mlx_put_pixel(canvas, px, py, 0xFFFFFFFF);
+          my_mlx_put_pixel(canvas, px, py, 0xFFFFFFFF);
         }
       }
     }
@@ -94,7 +95,7 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
         for (int dx = -dy; dx <= dy; ++dx) {
           int px = cx + dx;
           int py = y + h - dy + arrow_margin - gap;
-          mlx_put_pixel(canvas, px, py, 0xFFFFFFFF);
+          my_mlx_put_pixel(canvas, px, py, 0xFFFFFFFF);
         }
       }
     }
@@ -103,13 +104,13 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
     int scroll_bar_padding_left = 6;
     for (int px = 0; px < sbw; ++px) {
       for (int py = 0; py < h; ++py) {
-        mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, y + py, 0x00000000); // fully transparent
+        my_mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, y + py, 0x00000000); // fully transparent
       }
     }
 
     for (int px = 0; px < sbw; ++px)
       for (int py = 0; py < sbh; ++py)
-        mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, sby + py, 0x888888FF);
+        my_mlx_put_pixel(canvas, sbx + px + scroll_bar_padding_left, sby + py, 0x888888FF);
   }
 }
 

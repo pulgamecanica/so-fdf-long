@@ -1,3 +1,4 @@
+#include "mlx_utils.h"
 #include "app.h"
 #include "button.h"
 #include "mlx_utils.h"
@@ -74,7 +75,7 @@ bool button_set_background_path(t_button *btn, const char *path)
             int src_x = x * original->width / btn->elem.w;
             int src_y = y * original->height / btn->elem.h;
             uint32_t color = mlx_get_pixel_tex(original, src_x, src_y);
-            mlx_put_pixel(resized, x, y, color);
+            my_mlx_put_pixel(resized, x, y, color);
         }
     }
 
@@ -135,7 +136,7 @@ static void btn_render(t_ui_element *e, mlx_image_t *canvas)
   if (btn->bg_set)
     for (int px = 0; px < e->w; ++px)
       for (int py = 0; py < e->h; ++py)
-        mlx_put_pixel(canvas, e->x + px, e->y + py, btn->bg_color);
+        my_mlx_put_pixel(canvas, e->x + px, e->y + py, btn->bg_color);
 
   if (btn->bg_image) {
     put_img_to_img(canvas, btn->bg_image, e->x, e->y);
@@ -143,16 +144,16 @@ static void btn_render(t_ui_element *e, mlx_image_t *canvas)
     /* fill rect */
     for (int px = 0; px < e->w; ++px)
       for (int py = 0; py < e->h; ++py)
-        mlx_put_pixel(canvas, e->x + px, e->y + py, bg);
+        my_mlx_put_pixel(canvas, e->x + px, e->y + py, bg);
   }
   /* draw border */
   for (int px = 0; px < e->w; ++px) {
-    mlx_put_pixel(canvas, e->x + px, e->y, fg);
-    mlx_put_pixel(canvas, e->x + px, e->y + e->h - 1, fg);
+    my_mlx_put_pixel(canvas, e->x + px, e->y, fg);
+    my_mlx_put_pixel(canvas, e->x + px, e->y + e->h - 1, fg);
   }
   for (int py = 0; py < e->h; ++py) {
-    mlx_put_pixel(canvas, e->x, e->y + py, fg);
-    mlx_put_pixel(canvas, e->x + e->w - 1, e->y + py, fg);
+    my_mlx_put_pixel(canvas, e->x, e->y + py, fg);
+    my_mlx_put_pixel(canvas, e->x + e->w - 1, e->y + py, fg);
   }
   
   size_t  len        = strlen(btn->label);
@@ -181,7 +182,7 @@ static void btn_render(t_ui_element *e, mlx_image_t *canvas)
         b = b > 255 ? 255 : b;
 
         uint32_t blended = (r << 24) | (g << 16) | (b << 8) | a;
-        mlx_put_pixel(canvas, cx, cy, blended);
+        my_mlx_put_pixel(canvas, cx, cy, blended);
       }
     }
   }
