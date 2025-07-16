@@ -66,7 +66,7 @@ static void sl_render(t_ui_element *e, mlx_image_t *canvas) {
     const int arrow_margin = 5; // distance from border
     
     /* arrow */
-    int ah = ih / 2;
+    int ah = MIN(ih / 2, 20);
 
     /* scrollbar */
     int sbh_zone = h - ah - gap; // height available for scrollbar

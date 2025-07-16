@@ -121,6 +121,8 @@ void map_free(t_map *map) {
 
 const char *fdf_get_map_filename(int index) {
     static const char *filenames[] = {
+        "assets/fdf/t1.fdf",
+        "assets/fdf/t2.fdf",
         "assets/fdf/100-6.fdf",
         "assets/fdf/10-2.fdf",
         "assets/fdf/20-60.fdf",
@@ -131,9 +133,7 @@ const char *fdf_get_map_filename(int index) {
         "assets/fdf/mars.fdf",
         "assets/fdf/pentenegpos.fdf",
         "assets/fdf/pyra.fdf",
-        "assets/fdf/pyramide.fdf",
-        "assets/fdf/t1.fdf",
-        "assets/fdf/t2.fdf"
+        "assets/fdf/pyramide.fdf"
     };
     int count = sizeof(filenames) / sizeof(*filenames);
     if (index < 0 || index >= count)

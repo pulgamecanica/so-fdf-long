@@ -46,7 +46,7 @@ static void on_map_select(t_button *btn) {
   }
 }
 
-void init_bg(t_app *app) {
+static void init_bg(t_app *app) {
   if (bg_image) return;
 
   const int WIDTH = app->mlx->width;

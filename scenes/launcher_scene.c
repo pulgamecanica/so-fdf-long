@@ -28,7 +28,7 @@ static const char *labels[OPTIONS_COUNT] = {
 
 static const char *backgrounds[OPTIONS_COUNT] = {
   "assets/fractol/menu_button.png",
-  "",
+  "assets/fdf/menu_button.png",
   ""
 };
 

@@ -28,6 +28,7 @@ void fdf_gameplay_on_enter(t_app *app) {
 void fdf_gameplay_on_exit(t_app *app) {
   (void)app;
   printf("[FDF] Exiting gameplay scene\n");
+  memset(fdf.canvas->pixels, 0, fdf.canvas->width * fdf.canvas->height * 4);
 }
 
 void fdf_gameplay_update(t_app *app) {
