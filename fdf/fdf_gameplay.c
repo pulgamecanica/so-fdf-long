@@ -35,19 +35,34 @@ void fdf_gameplay_update(t_app *app) {
     return;
 
   bool shift_pressed =  mlx_is_key_down(app->mlx, MLX_KEY_LEFT_SHIFT) ||  mlx_is_key_down(app->mlx, MLX_KEY_RIGHT_SHIFT);
-  if (mlx_is_key_down(app->mlx, MLX_KEY_EQUAL) && shift_pressed)
+  if (app->scroll_y > 0 || (mlx_is_key_down(app->mlx, MLX_KEY_EQUAL) && shift_pressed))
     fdf.cam.zoom *= 1.05f;
-  if (mlx_is_key_down(app->mlx, MLX_KEY_MINUS))
+  if (app->scroll_y < 0 || mlx_is_key_down(app->mlx, MLX_KEY_MINUS))
     fdf.cam.zoom *= 0.95f;
 
   // --- Keyboard movement ---
-  if (mlx_is_key_down(app->mlx, MLX_KEY_LEFT) || mlx_is_key_down(app->mlx, MLX_KEY_A))
+  const float rot_speed = PAN_SPEED * 0.001; 
+  if (mlx_is_key_down(app->mlx, MLX_KEY_A))
+    fdf.cam.rot_offset_x -= rot_speed;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_D))
+    fdf.cam.rot_offset_x += rot_speed;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_W))
+    fdf.cam.rot_offset_y -= rot_speed;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_S))
+    fdf.cam.rot_offset_y += rot_speed;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_Q))
+    fdf.cam.rot_offset_z += rot_speed;
+  if (mlx_is_key_down(app->mlx, MLX_KEY_E))
+    fdf.cam.rot_offset_z -= rot_speed;
+
+
+  if (mlx_is_key_down(app->mlx, MLX_KEY_LEFT))
     fdf.cam.offset_x -= PAN_SPEED;
-  if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT) || mlx_is_key_down(app->mlx, MLX_KEY_D))
+  if (mlx_is_key_down(app->mlx, MLX_KEY_RIGHT))
     fdf.cam.offset_x += PAN_SPEED;
-  if (mlx_is_key_down(app->mlx, MLX_KEY_UP) || mlx_is_key_down(app->mlx, MLX_KEY_W))
+  if (mlx_is_key_down(app->mlx, MLX_KEY_UP))
     fdf.cam.offset_y -= PAN_SPEED;
-  if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN) || mlx_is_key_down(app->mlx, MLX_KEY_S))
+  if (mlx_is_key_down(app->mlx, MLX_KEY_DOWN))
     fdf.cam.offset_y += PAN_SPEED;
 
   // --- Mouse dragging ---
@@ -63,7 +78,7 @@ void fdf_gameplay_update(t_app *app) {
       fdf.drag_start_y = my;
       fdf.cam_start_offset_x = fdf.cam.offset_x;
       fdf.cam_start_offset_y = fdf.cam.offset_y;
-      fdf.cam_start_offset_z = fdf.cam.offset_z;  // ← you must add this to t_camera
+      fdf.cam_start_offset_z = fdf.cam.offset_z;
     } else {
       float dx = (float)(mx - fdf.drag_start_x);
       float dy = (float)(my - fdf.drag_start_y);
@@ -78,8 +93,6 @@ void fdf_gameplay_update(t_app *app) {
   } else {
     fdf.dragging = false;
   }
-
-
   ui_manager_update(fdf.ui, app->mlx);
 }
 

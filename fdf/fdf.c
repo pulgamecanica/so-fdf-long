@@ -3,14 +3,22 @@
 #include <stdio.h>
 #include <button.h>
 
-static t_button *map_buttons[2];
+#define NUM_PROJECTIONS 4
+static t_button *map_buttons[NUM_PROJECTIONS];
 extern t_fdf fdf;
 static t_ui_manager ui;
 
 static void on_proj_select(t_button *btn) {
-  for (int i = 0; i < 2; ++i)
-    if (btn == map_buttons[i])
-      fdf.cam.mode = (t_projection_mode)(i);
+    for (int i = 0; i < NUM_PROJECTIONS; ++i) {
+        if (btn == map_buttons[i]) {
+            fdf.cam.mode = (t_projection_mode)(i);
+
+            fdf.cam.rot_offset_x = 0.0f;
+            fdf.cam.rot_offset_y = 0.0f;
+            fdf.cam.rot_offset_z = 0.0f;
+            break;
+        }
+    }
 }
 
 static void init_proj_selection(t_app *app, t_fdf *fdf_) {
@@ -23,7 +31,7 @@ static void init_proj_selection(t_app *app, t_fdf *fdf_) {
 
     fdf_->proj_selection = scroll_list_create(app->mlx, PADDING, PADDING,
                                     PROJ_W,
-                                    PROJ_H * 2.5,
+                                    PROJ_H * 4.5,
                                     PROJ_W,
                                     PROJ_H,
                                     0);
@@ -32,9 +40,15 @@ static void init_proj_selection(t_app *app, t_fdf *fdf_) {
 
     map_buttons[0] = button_create(app->mlx, 0, 0, PROJ_W, PROJ_W, "ISO", on_proj_select);
     map_buttons[1] = button_create(app->mlx, 0, 0, PROJ_W, PROJ_W, "ORTHO", on_proj_select);
+    map_buttons[2] = button_create(app->mlx, 0, 0, PROJ_W, PROJ_W, "CONIC", on_proj_select);
+    map_buttons[3] = button_create(app->mlx, 0, 0, PROJ_W, PROJ_W, "PARALLEL", on_proj_select);
     if (scroll_list_add(fdf_->proj_selection, button_as_element(map_buttons[0])) < 0)
       exit(EXIT_FAILURE);
     if (scroll_list_add(fdf_->proj_selection, button_as_element(map_buttons[1])) < 0)
+      exit(EXIT_FAILURE);
+    if (scroll_list_add(fdf_->proj_selection, button_as_element(map_buttons[2])) < 0)
+      exit(EXIT_FAILURE);
+    if (scroll_list_add(fdf_->proj_selection, button_as_element(map_buttons[3])) < 0)
       exit(EXIT_FAILURE);
 
   ui_manager_add(&ui, scroll_list_as_element(fdf_->proj_selection));
